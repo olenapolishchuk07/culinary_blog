@@ -1,0 +1,58 @@
+<div class="toolbar">
+  <div class="filters">
+    <%= link_to "Всі записи", posts_path,
+        class: "filter #{params[:category].blank? ? 'active' : ''}" %>
+    <% Post::CATEGORIES.each do |key, label| %>
+      <%= link_to label, posts_path(category: key),
+          class: "filter #{params[:category] == key ? 'active' : ''}" %>
+    <% end %>
+  </div>
+
+  <%= form_with url: posts_path, method: :get, local: true do |f| %>
+    <%= f.search_field :search,
+        value: params[:search],
+        placeholder: "🔎 Знайти рецепт...",
+        class: "search" %>
+    <%= f.hidden_field :category, value: params[:category] %>
+  <% end %>
+</div>
+
+<% if @posts.any? %>
+  <div class="posts">
+    <% @posts.each do |post| %>
+      <article class="post">
+        <div class="post__meta">
+          <span class="post__cat cat--<%= post.category %>"><%= post.category_label %></span>
+          <span class="post__reading">⏳ <%= post.reading_time %></span>
+          <span class="post__date">📅 <%= post.created_at.strftime("%-d %B %Y") %></span>
+        </div>
+
+        <h2 class="post__title"><%= link_to post.title, post %></h2>
+        <p class="post__excerpt"><%= post.excerpt %></p>
+
+        <% if post.tags.present? %>
+          <div class="post__tags">
+            <% post.tags.split(",").map(&:strip).each do |tag| %>
+              <span class="tag">#<%= tag %></span>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="post__actions">
+          <%= link_to "⮟ Читати далі", post, class: "post__hint" %>
+          <%= link_to "🖍 Редагувати", edit_post_path(post), class: "btn" %>
+          <%= button_to "❌ Видалити", post,
+              method: :delete,
+              data: { turbo_confirm: "Видалити цей запис? Дію не можна скасувати." },
+              class: "btn btn--danger" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty">
+    <div class="empty__icon">🍽️</div>
+    <h3>Нічого не знайдено</h3>
+    <p>Спробуйте змінити фільтр або <%= link_to "додати перший рецепт", new_post_path %>!</p>
+  </div>
+<% end %>

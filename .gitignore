@@ -1,0 +1,35 @@
+# Bundler
+/.bundle
+/vendor/bundle
+
+# Database
+/db/*.sqlite3
+/db/*.sqlite3-*
+
+# Logs and temp
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Environment secrets
+.env
+/config/master.key
+/config/credentials.yml.enc
+
+# Node
+/node_modules
+yarn-error.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+

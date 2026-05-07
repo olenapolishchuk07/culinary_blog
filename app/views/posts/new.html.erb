@@ -1,0 +1,6 @@
+<div class="editor">
+  <h2 class="editor__title">🍳 Новий рецепт</h2>
+  <%= form_with model: @post do |f| %>
+    <%= render "form", post: @post, f: f %>
+  <% end %>
+</div>

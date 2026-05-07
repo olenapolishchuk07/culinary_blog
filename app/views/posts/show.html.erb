@@ -1,0 +1,28 @@
+<article class="post post--full">
+  <div class="post__meta">
+    <span class="post__cat cat--<%= @post.category %>"><%= @post.category_label %></span>
+    <span class="post__reading">⏳ <%= @post.reading_time %></span>
+    <span class="post__date">📅 <%= @post.created_at.strftime("%-d %B %Y") %></span>
+  </div>
+
+  <h1 class="post__title"><%= @post.title %></h1>
+
+  <div class="post__body"><%= @post.body %></div>
+
+  <% if @post.tags.present? %>
+    <div class="post__tags">
+      <% @post.tags.split(",").map(&:strip).each do |tag| %>
+        <span class="tag">#<%= tag %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="post__actions">
+    <%= link_to "← Назад до списку", posts_path, class: "btn" %>
+    <%= link_to "🖍 Редагувати", edit_post_path(@post), class: "btn" %>
+    <%= button_to "❌ Видалити", @post,
+        method: :delete,
+        data: { turbo_confirm: "Видалити цей запис?" },
+        class: "btn btn--danger" %>
+  </div>
+</article>
